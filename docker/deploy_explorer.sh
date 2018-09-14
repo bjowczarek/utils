@@ -57,7 +57,6 @@ function existsImage(){
 
 # Configure settings of HYPERLEDGER EXPLORER
 function config(){
-	docker_network_name="hlfgenerator_hlf"
 	# Default Hyperledger Explorer Database Credentials.
 	explorer_db_user="hppoc"
 	explorer_db_pwd="password"
@@ -70,7 +69,9 @@ function config(){
 	network_bin_base_path=$(pwd)/bin
 	#network version useful for pulling binaries
 	hlf_version=2
-
+	#network name, has to be similar to one where blockchain network is deployed
+	docker_network_name="hlfgenerator_hlf"
+	
 	# database container configuration
 	fabric_explorer_db_tag="bjowczarek/hyperledger-explorer-db:3.5"
 	fabric_explorer_db_name="blockchain-explorer-db"
