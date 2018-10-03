@@ -57,6 +57,12 @@ function existsImage(){
 
 # Configure settings of HYPERLEDGER EXPLORER
 function config(){
+	if [ "$1" == "3.5" ] || [ "$1" == "3.7" ]; then
+		tag=$1
+	else
+		tag="3.5"
+	fi
+	docker_network_name="hlfgenerator_hlf"
 	# Default Hyperledger Explorer Database Credentials.
 	explorer_db_user="hppoc"
 	explorer_db_pwd="password"
@@ -73,11 +79,11 @@ function config(){
 	docker_network_name="hlfgenerator_hlf"
 	
 	# database container configuration
-	fabric_explorer_db_tag="bjowczarek/hyperledger-explorer-db:3.5"
+	fabric_explorer_db_tag="bjowczarek/hyperledger-explorer-db:${tag}"
 	fabric_explorer_db_name="blockchain-explorer-db"
 
 	# fabric explorer configuratio
-	fabric_explorer_tag="bjowczarek/hyperledger-explorer:3.5"
+	fabric_explorer_tag="bjowczarek/hyperledger-explorer:${tag}"
 	fabric_explorer_name="blockchain-explorer"
 	# END: GLOBAL VARIABLES OF THE SCRIPT
 }
@@ -173,7 +179,7 @@ function main(){
 	banner
 	#checking if binaries in container's architecture exist
 	if [ ! -f ./bin/cryptogen ] && [ ! -f ./bin/configtxgen ]; then
-		./pullBinaries.sh Linux $hlf_version
+		./scripts/pullBinaries.sh Linux $hlf_version
 	fi
 	#Pass arguments to function exactly as-is
 	config "$@"
