@@ -56,7 +56,7 @@ function volumes {
 
 function networks {
     # Remove networks
-    networks=$(docker network ls | grep -v 'NETWORK\|bridge\|none\|host' | grep "$1" | awk '/ / { print $1 }')
+    networks=$(docker network ls | awk '/ / { print $1 " " $2 }' | grep -v 'NETWORK\|none\|host\|bridge' | grep "$1" | awk '/ / { print $1 }')
     if [ "$networks" != "" ]; then
         echo "Deleting existing network \"$1\"..."
         docker network rm $networks > /dev/null
