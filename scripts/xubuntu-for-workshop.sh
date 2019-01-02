@@ -4,3 +4,4 @@ apt-get purge libreoffice
 apt-get install git-core
 apt-get update
 apt-get install openjdk-11-jdk
+snap install --classic vscode
