@@ -1,0 +1,20 @@
+before_install:
+  # execute all of the commands which need to be executed 
+  # before installing dependencies
+  - composer self-update
+  - composer validate
+
+install:
+  # install all of the dependencies you need here
+  - composer install --prefer-dist
+
+before_script:
+  # execute all of the commands which need to be executed 
+  # before running actual tests
+  - mysql -u root -e 'CREATE DATABASE test'
+  - bin/doctrine-migrations migrations:migrate
+
+script:
+  # execute all of the commands which should make the build pass or fail
+  - vendor/bin/phpunit
+  - vendor/bin/php-cs-fixer fix --verbose --diff --dry-run
