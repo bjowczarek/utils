@@ -28,7 +28,12 @@ function info {
 
 function containers {
     # Remove tech docker containers
-    dockerContainers=$(docker ps -a | grep -v 'CONTAINER' | grep "$1" | awk '{print $1}')
+    if [ $# -ne 1 ] || [ $1 == "" ]; then
+        dockerContainers=$(docker ps -a | grep -v 'CONTAINER' | awk '{print $1}')
+    else
+        dockerContainers=$(docker ps -a | grep -v 'CONTAINER' | grep "$1" | awk '{print $1}')
+    fi
+    
     if [ "$dockerContainers" != "" ]; then
        echo "Deleting existing docker \"$1\" containers ..."
        docker rm -f $dockerContainers > /dev/null
@@ -36,8 +41,11 @@ function containers {
 }
 
 function images {
-    # Remove images
-    dockerImages=$(docker images | grep -v 'IMAGE' | grep "^$1/" | awk '{print $3}')
+    if [ $# -ne 1 ] || [ $1 == "" ]; then
+        dockerImages=$(docker images | grep -v 'IMAGE' | awk '{print $3}')
+    else
+        dockerImages=$(docker images | grep -v 'IMAGE' | grep "^$1/" | awk '{print $3}')
+    fi
     if [ "$dockerImages" != "" ]; then
         echo "Deleting existing \"$1\" images..."
         docker rmi -f $dockerImages > /dev/null
